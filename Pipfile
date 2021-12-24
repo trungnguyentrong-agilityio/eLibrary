@@ -1,0 +1,20 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+click = "==8.0.3"
+sqlalchemy = "==1.4.29"
+psycopg2 = "==2.9.2"
+python-dotenv = "==0.19.2"
+e-library = {editable = true, path = "."}
+alembic = "==1.7.5"
+
+[dev-packages]
+flake8 = "==4.0.1"
+black = {version = "21.12b0"}
+isort = "==5.10.1"
+
+[requires]
+python_version = "3.10"
