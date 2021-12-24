@@ -21,7 +21,7 @@ run-db:
 		-e POSTGRES_USER=${POSTGRES_USER} \
 		-e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
 		-e POSTGRES_DB=${POSTGRES_DB} \
-		-p 5432:5432 -d $(postgres_image) >&2 /dev/null \
+		-p 5432:5432 -d $(postgres_image) \
 		|| docker start $(app_name)-db
 
 setup-cli: install run-db
