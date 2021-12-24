@@ -27,3 +27,10 @@ run-db:
 setup-cli: install run-db
 	pipenv install --editable .
 	pipenv shell
+
+## Migration ##
+db-gen-migration:
+	pipenv run alembic revision --autogenerate -m $(NAME)
+
+db-upgrade:
+	pipenv run alembic upgrade head
