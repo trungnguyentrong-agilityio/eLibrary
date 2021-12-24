@@ -10,6 +10,7 @@ psycopg2 = "==2.9.2"
 python-dotenv = "==0.19.2"
 e-library = {editable = true, path = "."}
 alembic = "==1.7.5"
+inflection = "*"
 
 [dev-packages]
 flake8 = "==4.0.1"
