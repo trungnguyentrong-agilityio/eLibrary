@@ -34,7 +34,7 @@ def listAll():
 
 
 @user.command()
-@click.option("-i", "--id", required=True, type=int)
+@click.option("-i", "--id", "identity", required=True, type=int)
 @click.option("--firstname", required=True, type=str)
 @click.option("--lastname", required=True, type=str)
 def update(identity, firstname, lastname):
