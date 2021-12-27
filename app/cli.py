@@ -1,7 +1,7 @@
 import click
 from sqlalchemy.exc import SQLAlchemyError
 
-from app.commands import user, profile
+from app.commands import user, profile, book
 from app.database import sqlalchemy_engine, connection_string
 from app.models.base import Base
 
@@ -13,6 +13,7 @@ def cli():
 
 cli.add_command(user)
 cli.add_command(profile)
+cli.add_command(book)
 
 
 if __name__ == "__main":

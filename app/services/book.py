@@ -1,36 +1,74 @@
+import click
 from app.database import sqlalchemy_session
 from app.models.book import Book
 from app.database import connection_string
+from app.serializers import BookSchema
 
 session = sqlalchemy_session(connection_string)
 
-def list_books():
-    for book in session.query(Book).all():
-        print(f"book: {book}")
+def get_all():
+    try:
+        book = session.query(Book).all()
 
-def create_book(profile_id):
+        return BookSchema().dumps(book, many=True)
+    except:
+        session.rollback()
+        raise
+
+def get_one(identity: int):
+    try:
+        book = session.get(Book, {"id": identity})
+
+        if not book:
+            click.echo("Not Found")
+            return
+
+        return BookSchema().dumps(book)
+    except:
+        session.rollback()
+        raise
+
+def create(profile_id: int):
     try:
         book = Book()
         book.profile_id = profile_id
+
         session.add(book)
         session.commit()
+
+        return BookSchema().dumps(book)
     except:
         session.rollback()
         raise
 
-def update_book(id, book):
-    # TODO: need to catch the missing id case (currently it doesn't show any error)
+def update(identity: int, status: str, due_date: str, profile_id: int, user_id: int):
     try:
-        session.query(Book).filter(Book.id == id).update({"status": book.status, "due_date": book.due_date, "profile_id": book.profile_id, "user_id": book.user_id})
+        book = session.get(Book, {"id": identity})
+
+        if not book:
+            click.echo("Not Found")
+            return
+
+        book.status = status
+        book.due_date = due_date
+        book.profile_id = profile_id
+        book.user_id = user_id
         session.commit()
+
+        return BookSchema().dumps(book)
     except:
         session.rollback()
         raise
 
-def delete_book(id):
-    # TODO: need to catch the missing id case (currently it doesn't show any error)
+def delete(identity):
     try:
-        session.query(Book).filter(Book.id == id).delete()
+        book = session.get(Book, {"id": identity})
+
+        if not book:
+            click.echo("Not Found")
+            return
+
+        session.delete(book)
         session.commit()
     except:
         session.rollback()

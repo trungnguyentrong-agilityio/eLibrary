@@ -1,4 +1,5 @@
 import click
+from app.serializers import book_profile
 
 import app.services.book_profile as service
 
@@ -28,7 +29,7 @@ def update(identity, author, title):
 @profile.command()
 @click.option("-i", "--id", "identity", required=True, type=int)
 def delete(identity):
-    """Update a book profile"""
+    """Delete a book profile"""
     service.delete(identity=identity)
     click.echo(f"Deleted")
 
@@ -43,5 +44,5 @@ def get(identity):
 @profile.command("list")
 def listAll():
     """List all book profile"""
-    users = service.get_all()
-    click.echo(f"List: {users}")
+    book_profiles = service.get_all()
+    click.echo(f"List: {book_profiles}")

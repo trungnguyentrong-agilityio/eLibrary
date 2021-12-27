@@ -1,6 +1,7 @@
 import click
 from app.database import sqlalchemy_session
 from app.models.book_profile import BookProfile
+from app.models.book import Book
 from app.database import connection_string
 from app.serializers import BookProfileSchema
 
@@ -65,6 +66,10 @@ def delete(identity):
             click.echo("Not Found")
             return
 
+        # Delete books belong to the book_profile first
+        session.query(Book).filter(Book.profile_id == profile.id).delete()
+
+        # Delete profile
         session.delete(profile)
         session.commit()
     except:

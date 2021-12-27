@@ -11,6 +11,10 @@ class BookStatus(enum.Enum):
     available = "available"
     unavailable = "unavailable"
 
+    # Override to return the value of enum instead Enum.value when serialize
+    def __str__(self):
+        return self.value
+
 
 class Book(Base):
     status = Column(Enum(BookStatus), nullable=False)
@@ -20,6 +24,3 @@ class Book(Base):
 
     def __init__(self):
         self.status = BookStatus.available.value
-    def __repr__(self):
-        return "<Book(status='{}', due_date='{}', profile_id={}, user_id={}, created_at={}, updated_at={} )>"\
-                .format(self.status, self.due_date, self.profile_id, self.user_id, self.created_at, self.updated_at)
