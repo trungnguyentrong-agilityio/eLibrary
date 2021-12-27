@@ -1,12 +1,24 @@
 import click
+from sqlalchemy.exc import SQLAlchemyError
+
+from app.commands import user
+from app.database import sqlalchemy_engine, connection_string
+from app.models.base import Base
 
 
-@click.version_option()
-@click.command()
+@click.group()
 def cli():
-    """Example script."""
-    click.echo("Hello World!")
+    pass
+
+
+cli.add_command(user)
 
 
 if __name__ == "__main":
-    cli()
+    try:
+        engine = sqlalchemy_engine(connection_string)
+        engine.connect()
+        Base.metadata.create_all(engine)
+        cli()
+    except SQLAlchemyError as e:
+        print(f"Connection is failed: {e}")
