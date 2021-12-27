@@ -3,7 +3,6 @@ from sqlalchemy.exc import SQLAlchemyError
 from app.commands import hello
 from app.database import sqlalchemy_engine, connection_string
 from app.models.base import Base
-from app.models.book import Book
 
 if __name__ == "__main__":
     try:
