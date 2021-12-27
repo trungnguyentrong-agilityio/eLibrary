@@ -1,36 +1,71 @@
+import click
 from app.database import sqlalchemy_session
 from app.models.book_profile import BookProfile
 from app.database import connection_string
+from app.serializers import BookProfileSchema
 
 session = sqlalchemy_session(connection_string)
 
-def list_book_profiles():
-    for author, title in session.query(BookProfile.author, BookProfile.title).all():
-        print(f"Author: {author} - Title: {title}")
+def get_all():
+    try:
+        book_profile = session.query(BookProfile).all()
 
-def create_book_profile(author, title):
+        return BookProfileSchema().dumps(book_profile, many=True)
+    except:
+        session.rollback()
+        raise
+
+def get_one(identity: int):
+    try:
+        book_profile = session.get(BookProfile, {"id": identity})
+
+        if not book_profile:
+            click.echo("Not Found")
+            return
+
+        return BookProfileSchema().dumps(book_profile)
+    except:
+        session.rollback()
+        raise
+
+def create(author: str, title: str):
     try:
         profile = BookProfile(author = author, title = title)
 
         session.add(profile)
         session.commit()
+
+        return BookProfileSchema().dumps(profile)
     except:
         session.rollback()
         raise
 
-def update_book_profile(id, profile):
-    # TODO: need to catch the missing id case (currently it doesn't show any error)
+def update(identity: int, author: str, title: str):
     try:
-        session.query(BookProfile).filter(BookProfile.id == id).update({"title": profile.title, "author": profile.author})
+        profile = session.get(BookProfile, {"id": identity})
+
+        if not profile:
+            click.echo("Not Found")
+            return
+
+        profile.author = author
+        profile.title = title
         session.commit()
+
+        return BookProfileSchema().dumps(profile)
     except:
         session.rollback()
         raise
 
-def delete_book_profile(id):
-    # TODO: need to catch the missing id case (currently it doesn't show any error)
+def delete(identity):
     try:
-        session.query(BookProfile).filter(BookProfile.id == id).delete()
+        profile = session.get(BookProfile, {"id": identity})
+
+        if not profile:
+            click.echo("Not Found")
+            return
+
+        session.delete(profile)
         session.commit()
     except:
         session.rollback()
