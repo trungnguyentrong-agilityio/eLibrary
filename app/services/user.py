@@ -7,6 +7,7 @@ import click
 
 from app.serializers import UserSchema
 from app.serializers.user import UserBorrowingSchema
+from datetime import timedelta, date
 
 session = sqlalchemy_session(connection_string)
 
@@ -104,6 +105,8 @@ def borrow_book(user_id: int, book_id: int):
 
         book.user_id = user.id
         book.status = BookStatus.unavailable
+        # Assign due_date: 10 days from the day borrowing book
+        book.due_date = date.today() + timedelta(days=10)
         session.commit()
     except:
         session.rollback()
@@ -125,6 +128,7 @@ def return_book(user_id: int, book_id: int):
 
         book.user_id = None
         book.status = BookStatus.available
+        book.due_date = None
         session.commit()
     except:
         session.rollback()
