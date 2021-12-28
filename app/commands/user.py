@@ -34,7 +34,7 @@ def listAll():
 
 
 @user.command()
-@click.option("-i", "--id", required=True, type=int)
+@click.option("-i", "--id", "identity", required=True, type=int)
 @click.option("--firstname", required=True, type=str)
 @click.option("--lastname", required=True, type=str)
 def update(identity, firstname, lastname):
@@ -69,7 +69,7 @@ def return_book(user_id, book_id):
     click.echo("Success")
 
 
-@user.command()
+@user.command("borrowing_list")
 @click.option("-u", "--user-id", required=True, type=int)
 def borrowing_list(user_id):
     """List the borrowing list of a user by user id"""

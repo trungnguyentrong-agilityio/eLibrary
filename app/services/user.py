@@ -1,12 +1,13 @@
 from app.database import sqlalchemy_session
 from app.models import Book
-from app.models.book import BookStatus
+from app.models.book import BookStatus, Book
 from app.models.user import User
 from app.database import connection_string
 import click
 
 from app.serializers import UserSchema
 from app.serializers.user import UserBorrowingSchema
+from datetime import timedelta, date
 
 session = sqlalchemy_session(connection_string)
 
@@ -74,6 +75,10 @@ def delete(identity: int):
             click.echo("Not Found")
             return
 
+        # Delete books belong to the user first
+        session.query(Book).filter(Book.user_id == user.id).delete()
+
+        # Delete user
         session.delete(user)
         session.commit()
     except:
@@ -100,6 +105,8 @@ def borrow_book(user_id: int, book_id: int):
 
         book.user_id = user.id
         book.status = BookStatus.unavailable
+        # Assign due_date: 10 days from the day borrowing book
+        book.due_date = date.today() + timedelta(days=10)
         session.commit()
     except:
         session.rollback()
@@ -121,6 +128,7 @@ def return_book(user_id: int, book_id: int):
 
         book.user_id = None
         book.status = BookStatus.available
+        book.due_date = None
         session.commit()
     except:
         session.rollback()
