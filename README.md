@@ -13,3 +13,29 @@ Check the following for common use cases:
 make db-gen-migration NAME="message" # generate migration
 make db-upgrade # upgrade to later version of migrations
 ```
+## How to use the command line
+
+Using `elib <command name> --help` to how to run commands
+
+List of commands:
+- book
+    - create (Create a book)
+    - delete (Delete a book)
+    - get (Get a book by id)
+    - list (List all books)
+    - update (Update a book)
+- profile
+    - create (Create a book profile)
+    - delete (Delete a book profile)
+    - get (Get a book profile by id)
+    - list (List all book profile)
+    - update (Update a book profile)
+- user
+    - create (Create a user)
+    - delete (Delete a user by id)
+    - get (Get a user by id)
+    - list (List all users)
+    - update (Update a user by id)
+    - borrow (User borrow a book from the library)
+    - borrowing_list (List the borrowing list of a user by user id)
+    - return (User return a book to the library)

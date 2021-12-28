@@ -11,7 +11,7 @@ def book():
 @book.command()
 @click.option("--profile_id", required=True, type=int)
 def create(profile_id):
-    """Create a book profile"""
+    """Create a book"""
     created = service.create(profile_id=profile_id)
     click.echo(f"Created: {created}")
 
