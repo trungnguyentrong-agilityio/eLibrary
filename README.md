@@ -12,6 +12,9 @@
     - List all users who are borrowing books
     - List all books that are borrowing by a user
 
+## Database design:
+- [Diagram](https://dbdiagram.io/d/61c44f8c3205b45b73ca3fa1)
+
 ## How to start:
 1. Run `cp env_sample .env`
 2. Run `make setup-cli`
