@@ -1,5 +1,17 @@
 # eLibrary
 
+## Target:
+- Understanding the syntax and work flow of Python
+- Understanding how to work with Postgres and SQLAlchemy
+
+## Feature:
+- Create a command line for book management
+    - Create/Read/Update/Delete books
+    - Create/Read/Update/Delete users
+    - A user can borrow and return books
+    - List all users who are borrowing books
+    - List all books that are borrowing by a user
+
 ## How to start:
 1. Run `cp env_sample .env`
 2. Run `make setup-cli`
