@@ -30,7 +30,7 @@ make db-upgrade # upgrade to later version of migrations
 ```
 ## How to use the command line
 
-Using `elib <command name> --help` to how to run commands
+Using `elib <command name> --help` to know how to run commands
 
 List of commands:
 - book
